@@ -42,6 +42,7 @@
     </style>
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display text-[#1a160e]">
+<audio id="bg-music" src="Music/Daniel_Hope_Christian_Badzura_Jane_Berthe_Zrcher_Kammerorchester_-_Richter_Recomposed_By_Max_Richter_Vivaldi_The_Four_Seasons_-_Spring_1_61644397.mp3" autoplay loop preload="auto"></audio>
 <!-- Navigation -->
 <header class="fixed top-0 w-full z-50 bg-background-light/80 backdrop-blur-md border-b border-primary/20 px-6 py-4">
 <nav class="max-w-6xl mx-auto flex items-center justify-between">
@@ -55,6 +56,7 @@
 <a class="hover:text-sage transition-colors" href="#dress-code">Дресс-код</a>
 <a class="bg-primary px-6 py-2 rounded-full hover:bg-sage hover:text-white transition-all shadow-sm" href="#rsvp">Подтверждение</a>
 </div>
+<button id="music-toggle" class="material-symbols-outlined ml-auto md:ml-0 text-sage hover:text-[#7a8a4b] transition-colors" aria-label="Выключить музыку" title="Музыка">volume_up</button>
 <button class="md:hidden material-symbols-outlined">menu</button>
 </nav>
 </header>
@@ -255,6 +257,47 @@
 </footer>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
+    const audio = document.getElementById('bg-music');
+    const musicToggle = document.getElementById('music-toggle');
+
+    if (audio) {
+      audio.volume = 0.104;
+      audio.muted = false;
+
+      const playAttempt = audio.play();
+      if (playAttempt && typeof playAttempt.catch === 'function') {
+        playAttempt.catch(function () {
+          audio.muted = true;
+          audio.play().catch(function () {});
+        });
+      }
+
+      const unlockAudio = function () {
+        if (audio.muted) {
+          audio.muted = false;
+          audio.volume = 0.104;
+          audio.play().catch(function () {});
+          if (musicToggle) {
+            musicToggle.textContent = 'volume_up';
+            musicToggle.setAttribute('aria-label', 'Выключить музыку');
+          }
+        }
+      };
+
+      document.addEventListener('click', unlockAudio, { once: true });
+      document.addEventListener('touchstart', unlockAudio, { once: true });
+    }
+
+    if (musicToggle && audio) {
+      musicToggle.addEventListener('click', function (event) {
+        event.preventDefault();
+        const makeMuted = !audio.muted;
+        audio.muted = makeMuted;
+        musicToggle.textContent = makeMuted ? 'volume_off' : 'volume_up';
+        musicToggle.setAttribute('aria-label', makeMuted ? 'Включить музыку' : 'Выключить музыку');
+      });
+    }
+
     const slides = document.querySelectorAll('.venue-slide');
     if (!slides.length) return;
 
