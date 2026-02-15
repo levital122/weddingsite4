@@ -108,7 +108,10 @@
 <div class="grid md:grid-cols-2 gap-12 items-center bg-white rounded-3xl overflow-hidden shadow-xl shadow-sage/5">
 <div class="h-[400px] md:h-full relative overflow-hidden group">
 <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-all z-10"></div>
-<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Фото места проведения — ресторан Гавань" src="images/2026-02-15 21.14.25.jpg"/>
+<img class="venue-slide absolute inset-0 w-full h-full object-cover transition-all duration-1000 opacity-100 group-hover:scale-105" data-alt="Фото места проведения — ресторан Гавань" src="images/2026-02-15 21.14.25.jpg"/>
+<img class="venue-slide absolute inset-0 w-full h-full object-cover transition-all duration-1000 opacity-0 group-hover:scale-105" data-alt="Фото места проведения — ресторан Гавань" src="images/2.webp"/>
+<img class="venue-slide absolute inset-0 w-full h-full object-cover transition-all duration-1000 opacity-0 group-hover:scale-105" data-alt="Фото места проведения — ресторан Гавань" src="images/3.webp"/>
+<img class="venue-slide absolute inset-0 w-full h-full object-cover transition-all duration-1000 opacity-0 group-hover:scale-105" data-alt="Фото места проведения — ресторан Гавань" src="images/XXXL (1).webp"/>
 </div>
 <div class="p-8 md:p-12 lg:p-16">
 <div class="inline-block bg-sage/10 text-sage px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-6">Место проведения</div>
@@ -194,46 +197,34 @@
 <div class="text-center mb-10">
 <span class="material-symbols-outlined text-sage text-4xl mb-4">mail</span>
 <h2 class="text-4xl font-serif italic mb-2">Подтверждение</h2>
-<p class="text-sage">Пожалуйста, ответьте до 1 апреля 2025 года</p>
+<p class="text-sage">Пожалуйста, ответьте до 1 апреля 2026 года</p>
 </div>
 <form class="space-y-6">
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-<div class="space-y-2">
-<label class="text-sm font-bold uppercase tracking-wider text-sage px-1">Имя</label>
-<input class="w-full rounded-xl border-primary/30 focus:border-sage focus:ring-sage bg-background-light px-4 py-3" placeholder="Иван" type="text"/>
-</div>
-<div class="space-y-2">
-<label class="text-sm font-bold uppercase tracking-wider text-sage px-1">Фамилия</label>
-<input class="w-full rounded-xl border-primary/30 focus:border-sage focus:ring-sage bg-background-light px-4 py-3" placeholder="Иванов" type="text"/>
-</div>
+<div class="text-center p-4 border border-primary/30 rounded-xl bg-background-light">
+<p class="text-2xl md:text-3xl font-serif italic text-sage">Дорогие Юрий и Мария</p>
 </div>
 <div class="space-y-2">
 <label class="text-sm font-bold uppercase tracking-wider text-sage px-1">Вы сможете присутствовать?</label>
-<div class="flex gap-4">
-<label class="flex-1 cursor-pointer">
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+<label class="cursor-pointer">
 <input class="hidden peer" name="attendance" type="radio"/>
 <div class="text-center p-4 border border-primary/30 rounded-xl peer-checked:bg-sage peer-checked:text-white transition-all hover:bg-sage/5">
                                     С радостью приду
                                 </div>
 </label>
-<label class="flex-1 cursor-pointer">
+<label class="cursor-pointer">
 <input class="hidden peer" name="attendance" type="radio"/>
 <div class="text-center p-4 border border-primary/30 rounded-xl peer-checked:bg-sage peer-checked:text-white transition-all hover:bg-sage/5">
                                     К сожалению, не смогу
                                 </div>
 </label>
+<label class="cursor-pointer">
+<input class="hidden peer" name="attendance" type="radio"/>
+<div class="text-center p-4 border border-primary/30 rounded-xl peer-checked:bg-sage peer-checked:text-white transition-all hover:bg-sage/5">
+                                    Ещё думаю
+                                </div>
+</label>
 </div>
-</div>
-<div class="space-y-2">
-<label class="text-sm font-bold uppercase tracking-wider text-sage px-1">Пищевые предпочтения</label>
-<select class="w-full rounded-xl border-primary/30 focus:border-sage focus:ring-sage bg-background-light px-4 py-3">
-<option>Без ограничений</option>
-<option>Вегетарианское</option>
-<option>Веганское</option>
-<option>Без глютена</option>
-<option>Аллергия на орехи</option>
-<option>Другое (укажите ниже)</option>
-</select>
 </div>
 <div class="space-y-2">
 <label class="text-sm font-bold uppercase tracking-wider text-sage px-1">Пожелание для пары</label>
@@ -259,7 +250,24 @@
 <a class="hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">camera_alt</span></a>
 <a class="hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">mail</span></a>
 </div>
-<p class="text-xs text-white/30 tracking-widest">СДЕЛАНО С ЛЮБОВЬЮ ДЛЯ ВИТАЛИЯ И АЛЕКСАНДРЫ</p>
+<p class="text-xs text-white/30 tracking-widest">СДЕЛАНО С ЛЮБОВЬЮ ОТ ВИТАЛИЯ И АЛЕКСАНДРЫ</p>
 </div>
 </footer>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const slides = document.querySelectorAll('.venue-slide');
+    if (!slides.length) return;
+
+    let current = 0;
+    setInterval(function () {
+      slides[current].classList.remove('opacity-100');
+      slides[current].classList.add('opacity-0');
+
+      current = (current + 1) % slides.length;
+
+      slides[current].classList.remove('opacity-0');
+      slides[current].classList.add('opacity-100');
+    }, 5000);
+  });
+</script>
 </body></html>
