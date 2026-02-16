@@ -3,6 +3,7 @@
 <html lang="ru"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta name="robots" content="noindex, nofollow"/>
 <title>Виталий &amp; Александра | Приглашение на свадьбу</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.11/dist/dotlottie-wc.js" type="module"></script>
@@ -74,8 +75,8 @@
 <span class="material-symbols-outlined text-sage text-5xl">drafts</span>
 </div>
 <h2 class="text-sage text-lg font-medium tracking-[0.3em] uppercase mb-4">Приглашение на свадьбу</h2>
-<h1 class="script-font text-6xl md:text-8xl font-normal mb-8 leading-tight">Виталий &amp; Александра</h1>
-<p class="text-xl md:text-2xl font-light tracking-wide mb-12 border-y border-primary/40 py-4 inline-block px-8">
+  <h1 id="couple-names" class="script-font text-6xl md:text-8xl font-normal mb-8 leading-tight">Виталий &amp; Александра</h1>
+  <p id="event-date-city" class="text-xl md:text-2xl font-light tracking-wide mb-12 border-y border-primary/40 py-4 inline-block px-8">
                     15 МАЯ 2026 • КАЗАНЬ
                 </p>
 <div class="flex flex-col md:flex-row gap-4 justify-center">
@@ -116,10 +117,10 @@
 </div>
 <div class="p-8 md:p-12 lg:p-16">
 <div class="inline-block bg-sage/10 text-sage px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-6">Место проведения</div>
-<h3 class="text-4xl font-serif mb-4 italic">Ресторан «Гавань»</h3>
-<p class="text-sage font-medium mb-6 flex items-center gap-2">
+  <h3 id="venue-name" class="text-4xl font-serif mb-4 italic">Ресторан «Гавань»</h3>
+  <p class="text-sage font-medium mb-6 flex items-center gap-2">
 <span class="material-symbols-outlined text-sm">location_on</span>
-                        2-ая Староаракчинская улица, 11Б, корпус 1
+<span id="venue-address">2-ая Староаракчинская улица, 11Б, корпус 1</span>
                     </p>
 <p class="text-[#5c554a] leading-relaxed mb-8">
                         Мероприятие начнётся в 19:00, а с 18:00 до 19:00 для всех гостей будет открыта Welcome zone.
@@ -200,27 +201,27 @@
 <h2 class="text-4xl font-serif italic mb-2">Подтверждение</h2>
 <p class="text-sage">Пожалуйста, ответьте до 1 апреля 2026 года</p>
 </div>
-<form class="space-y-6">
+<form id="rsvp-form" class="space-y-6">
 <div class="text-center p-4 border border-primary/30 rounded-xl bg-background-light">
-<p class="text-2xl md:text-3xl font-serif italic text-sage">Дорогие Юрий и Мария</p>
+<p id="rsvp-greeting" class="text-2xl md:text-3xl font-serif italic text-sage">Дорогие гости</p>
 </div>
 <div class="space-y-2">
 <label class="text-sm font-bold uppercase tracking-wider text-sage px-1">Вы сможете присутствовать?</label>
 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
 <label class="cursor-pointer">
-<input class="hidden peer" name="attendance" type="radio"/>
+<input class="hidden peer" name="attendance" type="radio" value="С радостью приду" required/>
 <div class="text-center p-4 border border-primary/30 rounded-xl peer-checked:bg-sage peer-checked:text-white transition-all hover:bg-sage/5">
                                     С радостью приду
                                 </div>
 </label>
 <label class="cursor-pointer">
-<input class="hidden peer" name="attendance" type="radio"/>
+<input class="hidden peer" name="attendance" type="radio" value="К сожалению, не смогу" required/>
 <div class="text-center p-4 border border-primary/30 rounded-xl peer-checked:bg-sage peer-checked:text-white transition-all hover:bg-sage/5">
                                     К сожалению, не смогу
                                 </div>
 </label>
 <label class="cursor-pointer">
-<input class="hidden peer" name="attendance" type="radio"/>
+<input class="hidden peer" name="attendance" type="radio" value="Ещё думаю" required/>
 <div class="text-center p-4 border border-primary/30 rounded-xl peer-checked:bg-sage peer-checked:text-white transition-all hover:bg-sage/5">
                                     Ещё думаю
                                 </div>
@@ -229,11 +230,12 @@
 </div>
 <div class="space-y-2">
 <label class="text-sm font-bold uppercase tracking-wider text-sage px-1">Пожелание для пары</label>
-<textarea class="w-full rounded-xl border-primary/30 focus:border-sage focus:ring-sage bg-background-light px-4 py-3" placeholder="Поделитесь тёплыми словами..." rows="3"></textarea>
+<textarea id="wish" name="wish" class="w-full rounded-xl border-primary/30 focus:border-sage focus:ring-sage bg-background-light px-4 py-3" placeholder="Поделитесь тёплыми словами..." rows="3"></textarea>
 </div>
-<button class="w-full bg-sage text-white py-4 rounded-xl font-bold text-lg hover:shadow-xl hover:-translate-y-1 transition-all" type="submit">
+<button id="submit-rsvp" class="w-full bg-sage text-white py-4 rounded-xl font-bold text-lg hover:shadow-xl hover:-translate-y-1 transition-all disabled:opacity-70 disabled:cursor-not-allowed" type="submit">
                         Отправить ответ
                     </button>
+<p id="form-status" class="text-sm text-center text-sage min-h-5" aria-live="polite"></p>
 </form>
 </div>
 <!-- Floral footer decoration -->
@@ -255,9 +257,66 @@
 </div>
 </footer>
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('DOMContentLoaded', async function () {
     const audio = document.getElementById('bg-music');
     const musicToggle = document.getElementById('music-toggle');
+    const form = document.getElementById('rsvp-form');
+    const formStatus = document.getElementById('form-status');
+    const submitButton = document.getElementById('submit-rsvp');
+    const wishField = document.getElementById('wish');
+    const coupleNamesNode = document.getElementById('couple-names');
+    const eventDateCityNode = document.getElementById('event-date-city');
+    const venueNameNode = document.getElementById('venue-name');
+    const venueAddressNode = document.getElementById('venue-address');
+    const greetingNode = document.getElementById('rsvp-greeting');
+
+    const getSlug = function () {
+      const clean = window.location.pathname.replace(/^\/+|\/+$/g, '');
+      return clean || 'default';
+    };
+
+    const escapeHtml = function (value) {
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    };
+
+    let currentInvitation = { slug: getSlug() };
+
+    try {
+      const slug = getSlug();
+      const response = await fetch('data/invitations.json', { cache: 'no-store' });
+      if (response.ok) {
+        const payload = await response.json();
+        const invitation = payload[slug] || payload.default;
+        if (invitation) {
+          currentInvitation = { slug: slug, ...invitation };
+          if (invitation.pageTitle) {
+            document.title = invitation.pageTitle;
+          }
+          if (coupleNamesNode && invitation.coupleNames) {
+            coupleNamesNode.textContent = invitation.coupleNames;
+          }
+          if (eventDateCityNode && invitation.eventDateCity) {
+            eventDateCityNode.textContent = invitation.eventDateCity;
+          }
+          if (venueNameNode && invitation.venueName) {
+            venueNameNode.textContent = invitation.venueName;
+          }
+          if (venueAddressNode && invitation.venueAddress) {
+            venueAddressNode.textContent = invitation.venueAddress;
+          }
+          if (greetingNode && invitation.greeting) {
+            greetingNode.textContent = invitation.greeting;
+          }
+        }
+      }
+    } catch (e) {
+      console.error('Ошибка загрузки invitations.json', e);
+    }
 
     if (audio) {
       audio.volume = 0.104;
@@ -298,18 +357,77 @@
     }
 
     const slides = document.querySelectorAll('.venue-slide');
-    if (!slides.length) return;
+    if (slides.length) {
+      let current = 0;
+      setInterval(function () {
+        slides[current].classList.remove('opacity-100');
+        slides[current].classList.add('opacity-0');
 
-    let current = 0;
-    setInterval(function () {
-      slides[current].classList.remove('opacity-100');
-      slides[current].classList.add('opacity-0');
+        current = (current + 1) % slides.length;
 
-      current = (current + 1) % slides.length;
+        slides[current].classList.remove('opacity-0');
+        slides[current].classList.add('opacity-100');
+      }, 5000);
+    }
 
-      slides[current].classList.remove('opacity-0');
-      slides[current].classList.add('opacity-100');
-    }, 5000);
+    if (form) {
+      form.addEventListener('submit', async function (event) {
+        event.preventDefault();
+
+        const attendance = form.querySelector('input[name="attendance"]:checked');
+        const wish = wishField ? wishField.value.trim() : '';
+
+        if (!attendance) {
+          if (formStatus) {
+            formStatus.textContent = 'Выберите вариант присутствия.';
+          }
+          return;
+        }
+
+        if (submitButton) {
+          submitButton.disabled = true;
+          submitButton.textContent = 'Отправляем...';
+        }
+        if (formStatus) {
+          formStatus.textContent = 'Отправка...';
+        }
+
+        try {
+          const response = await fetch('/api/rsvp', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              slug: currentInvitation.slug,
+              invitationTitle: currentInvitation.pageTitle || document.title,
+              coupleNames: currentInvitation.coupleNames || '',
+              greeting: currentInvitation.greeting || '',
+              attendance: attendance.value,
+              wish: wish
+            })
+          });
+
+          const result = await response.json();
+          if (!response.ok) {
+            throw new Error(result && result.error ? result.error : 'Ошибка отправки');
+          }
+
+          if (formStatus) {
+            formStatus.textContent = 'Спасибо! Ответ отправлен.';
+          }
+          form.reset();
+        } catch (error) {
+          console.error(error);
+          if (formStatus) {
+            formStatus.innerHTML = 'Не удалось отправить форму. Попробуйте ещё раз или напишите напрямую.';
+          }
+        } finally {
+          if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.textContent = 'Отправить ответ';
+          }
+        }
+      });
+    }
   });
 </script>
 </body></html>
