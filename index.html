@@ -288,7 +288,7 @@
 
     try {
       const slug = getSlug();
-      const response = await fetch('data/invitations.json', { cache: 'no-store' });
+      const response = await fetch('/data/invitations.json', { cache: 'no-store' });
       if (response.ok) {
         const payload = await response.json();
         const invitation = payload[slug] || payload.default;
