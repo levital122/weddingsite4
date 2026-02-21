@@ -20,6 +20,11 @@ export default async function handler(req, res) {
       wish = ''
     } = req.body || {};
 
+    const host = req.headers['x-forwarded-host'] || req.headers.host || '';
+    const protocol = req.headers['x-forwarded-proto'] || 'https';
+    const sourcePath = slug === 'default' ? '/' : `/${slug}`;
+    const sourceUrl = host ? `${protocol}://${host}${sourcePath}` : sourcePath;
+
     if (!attendance) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
@@ -27,6 +32,7 @@ export default async function handler(req, res) {
     const html = `
       <h2>Новый RSVP-ответ</h2>
       <p><b>Slug:</b> ${escapeHtml(slug)}</p>
+      <p><b>Ссылка гостя:</b> ${escapeHtml(sourceUrl)}</p>
       <p><b>Страница:</b> ${escapeHtml(invitationTitle)}</p>
       <p><b>Пара:</b> ${escapeHtml(coupleNames)}</p>
       <p><b>Приветствие:</b> ${escapeHtml(greeting)}</p>
